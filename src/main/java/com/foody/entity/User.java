@@ -20,11 +20,19 @@ import java.util.List;
     private String address;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "review_id")
-    private List<Review> reviews;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
     private List<Role> roles;
 
 
+    public User(int id, String username, String password, String firstName, String lastName, String email, String address, String phoneNumber,  List<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.roles = roles;
+    }
 }

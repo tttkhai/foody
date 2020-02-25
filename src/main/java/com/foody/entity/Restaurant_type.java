@@ -7,14 +7,13 @@ import java.util.List;
 
 @Entity
 @Data
-public class Role {
+public class Restaurant_type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
-
+    @ManyToMany(mappedBy = "restaurants")
+    private List<Restaurant> restaurants;
 }
