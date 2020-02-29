@@ -14,7 +14,7 @@ public class City {
     private String name;
     private int zip_code;
 
-    @ManyToOne( fetch = FetchType.LAZY )
-    @JoinColumn(name = "state_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY )
+    @JoinColumn(name = "state_id")
     private State state;
 }

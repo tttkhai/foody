@@ -12,8 +12,8 @@ public class Restaurant_type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String type_name;
 
-    @ManyToMany(mappedBy = "restaurants")
+    @ManyToMany(mappedBy = "types")
     private List<Restaurant> restaurants;
 }

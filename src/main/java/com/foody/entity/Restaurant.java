@@ -19,10 +19,18 @@ public class Restaurant {
     private String address;
     private String phoneNumber;
 
+    // type
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="Restaurant_RestaurantType",
+            joinColumns= {@JoinColumn(name="restaurant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "type_id")}
+    )
     private List<Restaurant_type> types;
 
-    @OneToMany(mappedBy = "reviews")
+    // reviews
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "restaurant")
     private List<Review> reviews;
 
 }

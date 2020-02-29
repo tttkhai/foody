@@ -14,7 +14,7 @@ import javax.persistence.*;
     private String abbreviation;
 
     @ManyToOne( fetch = FetchType.LAZY )
-    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    @JoinColumn(name = "country_id")
     private Country country;
 
 }

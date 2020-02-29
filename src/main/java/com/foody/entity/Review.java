@@ -21,9 +21,11 @@ public class Review {
     private String comment;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name="user_id")
     private User user;
 }

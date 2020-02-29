@@ -21,6 +21,10 @@ import java.util.List;
     private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="User_Role",
+        joinColumns = @JoinColumn(name="role_id"),
+        inverseJoinColumns = @JoinColumn(name="user_id")
+    )
     private List<Role> roles;
 
 
