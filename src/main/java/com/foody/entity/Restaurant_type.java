@@ -16,4 +16,10 @@ public class Restaurant_type {
 
     @ManyToMany(mappedBy = "types")
     private List<Restaurant> restaurants;
+
+    public Restaurant_type(int id, String type_name, List<Restaurant> restaurants) {
+        this.id = id;
+        this.type_name = type_name;
+        this.restaurants = restaurants;
+    }
 }

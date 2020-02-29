@@ -17,4 +17,11 @@ public class City {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "state_id")
     private State state;
+
+    public City(int id, String name, int zip_code, State state) {
+        this.id = id;
+        this.name = name;
+        this.zip_code = zip_code;
+        this.state = state;
+    }
 }

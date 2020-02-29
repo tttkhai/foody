@@ -1,14 +1,14 @@
 package com.foody.service;
 
-import com.foody.entity.City;
 import com.foody.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+@Service
+public class CityImpl {
 
-public interface CityService {
-    List<City> getCity();
+    @Autowired
+    private CityRepository cityRepository;
 
 
 }

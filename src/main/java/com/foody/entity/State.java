@@ -17,4 +17,10 @@ import javax.persistence.*;
     @JoinColumn(name = "country_id")
     private Country country;
 
+    public State(int id, String name, String abbreviation, Country country) {
+        this.id = id;
+        this.name = name;
+        this.abbreviation = abbreviation;
+        this.country = country;
+    }
 }
