@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Restaurant_type {
+public class RestaurantType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -17,7 +17,7 @@ public class Restaurant_type {
     @ManyToMany(mappedBy = "types")
     private List<Restaurant> restaurants;
 
-    public Restaurant_type(int id, String type_name, List<Restaurant> restaurants) {
+    public RestaurantType(int id, String type_name, List<Restaurant> restaurants) {
         this.id = id;
         this.type_name = type_name;
         this.restaurants = restaurants;
