@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    @Query("SELECT * from review where restaurant_id:=restaurant_id")
+    @Query(value="SELECT * from review r where r.restaurant_id=?1", nativeQuery = true)
     List<Review> reviewsByRestaurant(int restaurant_id);
 
 }

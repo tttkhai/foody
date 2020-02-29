@@ -1,13 +1,15 @@
 package com.foody.service;
 
-import com.foody.repository.CityRepository;
-import com.foody.repository.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.foody.entity.Restaurant;
 
-@Service
+import java.util.List;
+
 public interface RestaurantService {
+    List<Restaurant> allRestaurants();
 
+    Restaurant restaurantById(int id);
+
+    List<Restaurant> restaurantByLocation(int zip_code);
 
 
 }

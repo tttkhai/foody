@@ -1,5 +1,6 @@
 package com.foody.controller;
 
+import com.foody.service.UserImpl;
 import com.foody.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,5 +9,5 @@ import org.springframework.stereotype.Controller;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserImpl userImpl;
 }

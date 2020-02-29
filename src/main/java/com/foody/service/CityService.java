@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface CityService {
-    List<City> getCity();
+    List<City> getCityByState(int stateId);
 
 
 }
