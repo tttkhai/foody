@@ -19,9 +19,8 @@ public class StateController {
     private StateService stateService;
 
     @GetMapping(value = "/city/{state_id}")
-    public ResponseEntity<?> getStateByCountry(@PathVariable int state_id) {
-        List<State> states = stateService.getStateByCountry(state_id);
-        return ResponseEntity.ok().body(states);
+    public ResponseEntity<?> getStateByCountry(@PathVariable int country_id) {
+        return ResponseEntity.ok().body(stateService.getStateByCountry(country_id));
     }
 
 }

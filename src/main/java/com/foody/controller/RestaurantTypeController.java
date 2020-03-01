@@ -15,7 +15,7 @@ public class RestaurantTypeController {
     private RestaurantTypeService restaurantTypeService;
 
     @GetMapping(value = "/restaurantType")
-    public ResponseEntity<?> getRestaurantType(@PathVariable int state_id) {
+    public ResponseEntity<?> getRestaurantType() {
         return ResponseEntity.ok().body(restaurantTypeService.getRestaurantType());
     }
 

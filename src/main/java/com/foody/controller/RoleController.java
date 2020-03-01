@@ -18,7 +18,7 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping(value = "/roles")
-    public ResponseEntity<?> getAllRoles(@PathVariable int state_id) {
+    public ResponseEntity<?> getAllRoles() {
         return ResponseEntity.ok().body(roleService.getAllRoles());
     }
 }

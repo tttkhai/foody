@@ -20,8 +20,4 @@ public class CountryController {
     public ResponseEntity<?> getAllCountry() {
         return ResponseEntity.ok().body(countryService.getAllCountry());
     }
-    @GetMapping(value = "/hello")
-    public String health() {
-        return "Hello";
-    }
 }
