@@ -11,5 +11,7 @@ public interface RestaurantService {
 
     List<Restaurant> restaurantByLocation(int zip_code);
 
+    Restaurant addRestaurant(int user_id, Restaurant restaurant);
+
 
 }

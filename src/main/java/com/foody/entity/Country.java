@@ -16,6 +16,8 @@ import javax.persistence.Id;
     private String name;
     private String phone_code;
 
+    public Country(){}
+
     public Country(int id, String name, String phone_code) {
         this.id = id;
         this.name = name;

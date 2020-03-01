@@ -14,12 +14,12 @@ public class Role {
 
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+//    @ManyToMany(mappedBy = "roles")
+//    private List<User> users;
 
-    public Role(int id, String name, List<User> users) {
+
+    public Role(int id, String name) {
         this.id = id;
         this.name = name;
-        this.users = users;
     }
 }

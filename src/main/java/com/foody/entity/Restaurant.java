@@ -25,12 +25,13 @@ public class Restaurant {
             joinColumns= {@JoinColumn(name="restaurant_id")},
             inverseJoinColumns = {@JoinColumn(name = "type_id")}
     )
-    private List<Restaurant_type> types;
+    private List<RestaurantType> types;
+
 
     // reviews
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "restaurant")
-    private List<Review> reviews;
+//    @OneToMany(cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY,
+//            mappedBy = "restaurant")
+//    private List<Review> reviews;
 
 }

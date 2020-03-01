@@ -13,5 +13,5 @@ public interface UserService {
     User getUser(int id);
     User addUser(User user);
     User deleteUser(int id);
-    User updateUser(int id);
+    User updateUser(int id, User user);
 }

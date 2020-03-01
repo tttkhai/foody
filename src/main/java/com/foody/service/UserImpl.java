@@ -18,21 +18,26 @@ public class UserImpl implements UserService{
     public User getUser(int id) {
         return userRepository.findById(id).map(res->{
             return res;
-        }).orElseThrow(()->new ResourceNotFoundException("Restaurant Id  " + id + " not found"));
+        }).orElseThrow(()->new ResourceNotFoundException("User Id  " + id + " not found"));
     }
 
     @Override
     public User addUser(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public User deleteUser(int id) {
-        return null;
+        return userRepository.findById(id).map(user -> {
+            return user;
+        }).orElseThrow(()-> new ResourceNotFoundException("there is no user with this id "+ id));
     }
 
     @Override
-    public User updateUser(int id) {
-        return null;
+    public User updateUser(int id, User user) {
+        return userRepository.findById(id).map(u -> {
+            user.setId(u.getId());
+            return userRepository.save(user);
+        }).orElseThrow(()-> new ResourceNotFoundException("there is no user with this id "+ id));
     }
 }
