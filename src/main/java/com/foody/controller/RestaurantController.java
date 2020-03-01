@@ -31,7 +31,7 @@ public class RestaurantController {
         return ResponseEntity.ok().body(restaurant);
     }
 
-    @GetMapping(value = "/restaurant/{id}")
+    @GetMapping(value = "/results")
     public ResponseEntity<?> getRestaurantByLocation(@RequestBody int zip_code) {
         List<Restaurant> restaurants = restaurantService.restaurantByLocation(zip_code);
         return ResponseEntity.ok().body(restaurants);
