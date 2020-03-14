@@ -27,6 +27,14 @@ public class Restaurant {
     )
     private List<RestaurantType> types;
 
+    public Restaurant(int id, String name, String email, String address, String phoneNumber, List<RestaurantType> types) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.types = types;
+    }
 
     // reviews
 //    @OneToMany(cascade = CascadeType.ALL,

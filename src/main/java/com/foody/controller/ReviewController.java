@@ -1,15 +1,9 @@
 package com.foody.controller;
 
-import com.foody.entity.Restaurant;
 import com.foody.entity.Review;
-import com.foody.repository.ReviewRepository;
-import com.foody.service.CityService;
-import com.foody.service.RestaurantTypeImpl;
-import com.foody.service.ReviewImpl;
 import com.foody.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +29,9 @@ public class ReviewController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/reviews/restaurant={res_id}")
-    public ResponseEntity<?> getReviewsByRestaurant(@RequestParam int res_id) {
-        List<Review> reviews = reviewService.getReviewByRestaurant(res_id);
+    @GetMapping(value = "/reviews")
+    public ResponseEntity<?> getReviewsByRestaurant(@RequestParam(name="restaurant") int id) {
+        List<Review> reviews = reviewService.getReviewByRestaurant(id);
         return ResponseEntity.ok().body(reviews);
     }
 

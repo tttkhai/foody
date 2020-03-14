@@ -24,4 +24,5 @@ public class City {
         this.zip_code = zip_code;
         this.state = state;
     }
+    public City(){}
 }
