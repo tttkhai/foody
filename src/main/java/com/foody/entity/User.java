@@ -27,7 +27,7 @@ import java.util.List;
     )
     private List<Role> roles;
 
-
+    public User(){}
     public User(int id, String username, String password, String firstName, String lastName, String email, String address, String phoneNumber,  List<Role> roles) {
         this.id = id;
         this.username = username;

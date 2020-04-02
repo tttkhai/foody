@@ -1,5 +1,6 @@
 package com.foody.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 
     @ManyToOne( fetch = FetchType.LAZY )
     @JoinColumn(name = "country_id")
+    @JsonIgnore
     private Country country;
 
     public State(){}

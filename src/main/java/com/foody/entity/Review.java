@@ -28,4 +28,6 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User user;
+
+    public Review(){}
 }

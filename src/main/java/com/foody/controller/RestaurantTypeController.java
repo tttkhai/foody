@@ -11,7 +11,7 @@ public class RestaurantTypeController {
     @Autowired
     private RestaurantTypeService restaurantTypeService;
 
-    @GetMapping(value = "/restaurantType")
+    @GetMapping(value = "/restaurantTypes")
     public ResponseEntity<?> getRestaurantType() {
         return ResponseEntity.ok().body(restaurantTypeService.getRestaurantType());
     }
