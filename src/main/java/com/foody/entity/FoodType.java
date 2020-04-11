@@ -13,6 +13,8 @@ public class FoodType {
 
     public String food_type;
 
+    public FoodType(){}
+
     public FoodType(int id, String food_type) {
         this.id = id;
         this.food_type = food_type;
