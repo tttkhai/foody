@@ -4,10 +4,7 @@ import com.foody.entity.Restaurant;
 import com.foody.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,10 @@ public class RestaurantController {
         return ResponseEntity.ok().body(restaurants);
     }
 
+    @PostMapping(value = "/addRestaurant")
+    public ResponseEntity<?> createRestaurant(@RequestBody int zip_code) {
+        List<Restaurant> restaurants = restaurantService.restaurantByLocation(zip_code);
+        return ResponseEntity.ok().body(restaurants);
+    }
 
 }

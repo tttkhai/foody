@@ -21,6 +21,9 @@ public class Restaurant {
     private String address;
     private String phoneNumber;
 
+    private double lat;
+    private double lng;
+
     // Restaurant type
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_types_id")
@@ -38,15 +41,7 @@ public class Restaurant {
 
     public Restaurant(){}
 
-    public Restaurant(int id, String name, String email, String address, String phoneNumber, RestaurantType restaurant_types, List<FoodType> food_types) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.restaurant_types = restaurant_types;
-        this.food_types = food_types;
-    }
+
 
     // reviews
 //    @OneToMany(cascade = CascadeType.ALL,
