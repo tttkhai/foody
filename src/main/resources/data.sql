@@ -13,7 +13,27 @@
 -- INSERT INTO `foodydb`.`city` (`id`, `name`, `zip_code`,`state_id`) VALUES (3, 'Milford', '45067', 3);
 -- INSERT INTO `foodydb`.`city` (`id`, `name`, `zip_code`,`state_id`) VALUES (4, 'Santa Clara', '95050', 4);
 -- INSERT INTO `foodydb`.`city` (`id`, `name`, `zip_code`,`state_id`) VALUES (5, 'Morrow', '30260', 1);
-
-
+--
+--
 ---------- insert food type join table ----------
 --INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUES (1, 1);
+
+---------- insert food type table ----------
+--INSERT INTO `foodydb`.`food_type` VALUES (1, 'BBQ/Steak');
+--INSERT INTO `foodydb`.`food_type` VALUES (2, 'Coffee');
+--INSERT INTO `foodydb`.`food_type` VALUES (3, 'Desert');
+--INSERT INTO `foodydb`.`food_type` VALUES (4, 'Boba');
+--INSERT INTO `foodydb`.`food_type` VALUES (5, 'Noodle/Ramen');
+--INSERT INTO `foodydb`.`food_type` VALUES (6, 'Fastfood');
+--INSERT INTO `foodydb`.`food_type` VALUES (7, 'Boba');
+
+---------- insert Restaurant type table ----------
+--INSERT INTO `foodydb`.`restaurant_type` VALUES (1, 'Vietnamese');
+--INSERT INTO `foodydb`.`restaurant_type` VALUES (2, 'Asian');
+--INSERT INTO `foodydb`.`restaurant_type` VALUES (3, 'Mediterranean');
+--INSERT INTO `foodydb`.`restaurant_type` VALUES (4, 'Mexican');
+--INSERT INTO `foodydb`.`restaurant_type` VALUES (5, 'American');
+
+---------- insert Role table ----------
+--INSERT INTO `foodydb`.`role` VALUES (1, 'Admin');
+--INSERT INTO `foodydb`.`role` VALUES (2, 'User');

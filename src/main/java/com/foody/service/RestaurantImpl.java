@@ -10,15 +10,16 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class RestaurantImpl implements RestaurantService{
+    InputStream inputStream;
+    String result = "";
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -43,6 +44,7 @@ public class RestaurantImpl implements RestaurantService{
         return restaurantRepository.restaurantByLocation(zip_code);
     }
 
+    // only admin has privileges to add new restaurant
     @Override
     public Restaurant addRestaurant(int user_id, Restaurant restaurant) throws IOException, JSONException {
         User user=userService.getUser(user_id);
@@ -59,8 +61,21 @@ public class RestaurantImpl implements RestaurantService{
 
     @Override
     public double[] getLocation_object(String address) throws IOException, JSONException {
+        Properties prop = new Properties();
+        String propFile = "privatekeys.properties";
+
+        inputStream = getClass().getClassLoader().getResourceAsStream(propFile);
+        if (inputStream != null) {
+            prop.load(inputStream);
+        } else {
+            throw new FileNotFoundException("property file '" + propFile + "' not found in the classpath");
+        }
+
+        String google_key_api=prop.getProperty("google_key_api");
+
+        System.out.println("this is API key: "+google_key_api);
         String uri="https://maps.googleapis.com/maps/api/geocode/json?";
-        URL url = new URL(uri+"address="+address+"&key=");
+        URL url = new URL(uri+"address="+address+"&key="+google_key_api);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
         StringBuffer response = new StringBuffer();
