@@ -20,15 +20,13 @@ import java.util.List;
     private String address;
     private String phoneNumber;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="User_Role",
-        joinColumns = @JoinColumn(name="role_id"),
-        inverseJoinColumns = @JoinColumn(name="user_id")
-    )
-    private List<Role> roles;
+    @ManyToOne(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name="role_id")
+    private Role role;
 
     public User(){}
-    public User(int id, String username, String password, String firstName, String lastName, String email, String address, String phoneNumber,  List<Role> roles) {
+
+    public User(int id, String username, String password, String firstName, String lastName, String email, String address, String phoneNumber,  Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -37,7 +35,7 @@ import java.util.List;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.roles = roles;
+        this.role = role;
     }
 
 

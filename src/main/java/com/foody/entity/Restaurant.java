@@ -39,6 +39,7 @@ public class Restaurant {
     )
     private List<FoodType> food_types;
 
+
     public Restaurant(){}
 
 

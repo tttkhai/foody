@@ -4,6 +4,7 @@ import com.foody.entity.FoodType;
 import com.foody.entity.Restaurant;
 import com.foody.entity.RestaurantType;
 import com.foody.entity.User;
+import com.foody.repository.FoodTypeRepository;
 import com.foody.repository.RestaurantRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 @Service
@@ -24,6 +26,8 @@ public class RestaurantImpl implements RestaurantService{
     @Autowired
     private RestaurantRepository restaurantRepository;
     private UserService userService;
+    private FoodTypeRepository foodTypeRepository;
+    private RestaurantService restaurantService;
 
     @Override
     public List<Restaurant> allRestaurants() {
@@ -47,13 +51,17 @@ public class RestaurantImpl implements RestaurantService{
     // only admin has privileges to add new restaurant
     @Override
     public Restaurant addRestaurant(int user_id, Restaurant restaurant) throws IOException, JSONException {
-        User user=userService.getUser(user_id);
+
         double[] location= getLocation_object(restaurant.getAddress());
         restaurant.setLat(location[0]);
         restaurant.setLat(location[1]);
+        User user=userService.getUser(user_id);
+
         if(user!=null) {
-           if (user.getRoles().stream().filter(role -> {return role.getName().equals("admin");})==null) {
+           if (user.getRole().getName().equals("admin")) {
                return restaurantRepository.save(restaurant);
+           } else{
+               new ResourceNotFoundException("User is not admin");
            }
        }
         return null;
@@ -72,8 +80,8 @@ public class RestaurantImpl implements RestaurantService{
         }
 
         String google_key_api=prop.getProperty("google_key_api");
-
         System.out.println("this is API key: "+google_key_api);
+
         String uri="https://maps.googleapis.com/maps/api/geocode/json?";
         URL url = new URL(uri+"address="+address+"&key="+google_key_api);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
