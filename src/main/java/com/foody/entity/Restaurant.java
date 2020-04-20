@@ -29,7 +29,7 @@ public class Restaurant {
     @JoinColumn(name = "restaurant_types_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private RestaurantType restaurant_types;
+    private RestaurantType restaurant_type;
 
     // food type
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
