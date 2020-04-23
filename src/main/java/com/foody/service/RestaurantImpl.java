@@ -87,7 +87,6 @@ public class RestaurantImpl implements RestaurantService{
 
         restaurantRepository.save(restaurant);
 
-
 //        User user=userService.getUser(user_id);
 
 //        if(user!=null) {
@@ -138,7 +137,7 @@ public class RestaurantImpl implements RestaurantService{
 
     @Override
     public List<Restaurant> getRestaurantListBySearch(double lat, double lng, List<FoodType> food_types, List<RestaurantType> res_types, double distance) {
-        return null;
+        return restaurantRepository.getRestaurantListBySearch(lat, lng, food_types, res_types, distance);
     }
 
 }

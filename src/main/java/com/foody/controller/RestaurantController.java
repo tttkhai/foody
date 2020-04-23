@@ -39,12 +39,17 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/addRestaurant")
-//    public ResponseEntity<?> createRestaurant(@PathVariable int user_id, @RequestBody Restaurant restaurant) throws IOException, JSONException {
-//    public ResponseEntity<?> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws IOException, JSONException {
     public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload ) throws IOException, JSONException {
         System.out.println("this is payload: "+payload.toString());
         restaurantService.addRestaurant(payload);
         return ResponseEntity.ok().build();
     }
+
+//    @GetMapping(value = "/restaurantList")
+//    public ResponseEntity<?> getRestaurantListBySearch(@RequestBody int search) {
+//        double lat, double lng, List<FoodType> food_types, List<RestaurantType> res_types, double distance
+//        List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch();
+//        return ResponseEntity.ok().body(restaurantList);
+//    }
 
 }
