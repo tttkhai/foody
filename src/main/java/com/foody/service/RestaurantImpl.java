@@ -1,11 +1,13 @@
 package com.foody.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foody.entity.FoodType;
 import com.foody.entity.Restaurant;
 import com.foody.entity.RestaurantType;
-import com.foody.entity.User;
 import com.foody.repository.FoodTypeRepository;
 import com.foody.repository.RestaurantRepository;
+import com.foody.repository.RestaurantTypeRepository;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +15,28 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 public class RestaurantImpl implements RestaurantService{
     InputStream inputStream;
     String result = "";
 
-    @Autowired
     private RestaurantRepository restaurantRepository;
     private UserService userService;
     private FoodTypeRepository foodTypeRepository;
-    private RestaurantService restaurantService;
+    private RestaurantTypeRepository restaurantTypeRepository;
+
+
+    @Autowired
+    public RestaurantImpl(RestaurantRepository restaurantRepository, UserService userService,
+                          FoodTypeRepository foodTypeRepository, RestaurantTypeRepository restaurantTypeRepository) {
+        this.restaurantRepository = restaurantRepository;
+        this.userService = userService;
+        this.foodTypeRepository = foodTypeRepository;
+        this.restaurantTypeRepository = restaurantTypeRepository;
+    }
+
 
     @Override
     public List<Restaurant> allRestaurants() {
@@ -48,23 +57,46 @@ public class RestaurantImpl implements RestaurantService{
         return restaurantRepository.restaurantByLocation(zip_code);
     }
 
-    // only admin has privileges to add new restaurant
+    // Only admin has privileges to add new restaurant
     @Override
-    public Restaurant addRestaurant(int user_id, Restaurant restaurant) throws IOException, JSONException {
+    public void addRestaurant(Map<String, Object> payload) throws IOException, JSONException {
+        Restaurant restaurant = new Restaurant();
+        JSONObject json = new JSONObject(payload);
+
+        JSONObject restaurant_object = new JSONObject(json.getJSONObject("restaurant").toString());
+        JSONArray food_types_object = restaurant_object.getJSONArray("food_types");
+
+        List<FoodType> foodTypes = new ArrayList<>();
+        for (int i = 0; i < food_types_object.length(); i++) {
+            FoodType foodType=foodTypeRepository.getFoodType(food_types_object.getInt(i));
+            foodTypes.add(foodType);
+        }
+
+        RestaurantType restaurantType = restaurantTypeRepository.getType(restaurant_object.getInt("restaurant_types_id"));
+
+        restaurant.setName(restaurant_object.getString("name"));
+        restaurant.setEmail(restaurant_object.getString("email"));
+        restaurant.setAddress(restaurant_object.getString("address"));
+        restaurant.setPhoneNumber(restaurant_object.getString("phoneNumber"));
+        restaurant.setRestaurant_type(restaurantType);
+        restaurant.setFood_types(foodTypes);
 
         double[] location= getLocation_object(restaurant.getAddress());
         restaurant.setLat(location[0]);
-        restaurant.setLat(location[1]);
-        User user=userService.getUser(user_id);
+        restaurant.setLng(location[1]);
 
-        if(user!=null) {
-           if (user.getRole().getName().equals("admin")) {
-               return restaurantRepository.save(restaurant);
-           } else{
-               new ResourceNotFoundException("User is not admin");
-           }
-       }
-        return null;
+        restaurantRepository.save(restaurant);
+
+
+//        User user=userService.getUser(user_id);
+
+//        if(user!=null) {
+//           if (user.getRole().getName().equals("admin")) {
+//               restaurantRepository.save(restaurant);
+//           } else{
+//               new ResourceNotFoundException("User is not admin");
+//           }
+//       }
     }
 
     @Override
@@ -81,9 +113,10 @@ public class RestaurantImpl implements RestaurantService{
 
         String google_key_api=prop.getProperty("google_key_api");
         System.out.println("this is API key: "+google_key_api);
+        String encoded_address=String.join("+", address.split(" "));
+        String string_url="https://maps.googleapis.com/maps/api/geocode/json?address="+encoded_address+"&key="+google_key_api;
 
-        String uri="https://maps.googleapis.com/maps/api/geocode/json?";
-        URL url = new URL(uri+"address="+address+"&key="+google_key_api);
+        URL url = new URL(string_url);
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
         StringBuffer response = new StringBuffer();

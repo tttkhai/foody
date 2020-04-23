@@ -16,11 +16,15 @@ public class RestaurantTypeImpl implements RestaurantTypeService{
     private RestaurantTypeRepository restaurantTypeRepository;
 
     @Override
-    public List<RestaurantType> getRestaurantType() {
+    public List<RestaurantType> getRestaurantTypes() {
         List<RestaurantType> restaurantTypeList= new ArrayList<>();
         restaurantTypeRepository.findAll().forEach(restaurantTypeList::add);
         return restaurantTypeList;
     }
 
+    @Override
+    public RestaurantType getTypes(int id) {
+        return restaurantTypeRepository.getType(id);
+    }
 
 }

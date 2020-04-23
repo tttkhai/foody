@@ -11,8 +11,8 @@ import java.util.List;
 
 @Service
 public interface RestaurantTypeService {
-    List<RestaurantType> getRestaurantType();
-
+    List<RestaurantType> getRestaurantTypes();
+    RestaurantType getTypes(int id);
 
 
 }

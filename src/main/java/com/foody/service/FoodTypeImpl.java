@@ -15,9 +15,14 @@ public class FoodTypeImpl implements FoodTypeService {
     private FoodTypeRepository foodTypeRepository;
 
     @Override
-    public List<FoodType> getAllFoodType() {
+    public List<FoodType> getAllFoodTypes() {
         List<FoodType> food_list= new ArrayList<>();
         foodTypeRepository.findAll().forEach(food_list::add);
         return food_list;
+    }
+
+    @Override
+    public FoodType getFoodType(int id) {
+        return foodTypeRepository.getFoodType(id);
     }
 }

@@ -1,14 +1,19 @@
 package com.foody.controller;
 
+import com.foody.entity.FoodType;
 import com.foody.entity.Restaurant;
+import com.foody.entity.RestaurantType;
 import com.foody.service.RestaurantService;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RestaurantController {
@@ -34,9 +39,12 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/addRestaurant")
-    public ResponseEntity<?> createRestaurant(@RequestBody int user_id, @RequestBody Restaurant restaurant) throws IOException, JSONException {
-        Restaurant restaurants = restaurantService.addRestaurant(user_id, restaurant);
-        return ResponseEntity.ok().body(restaurants);
+//    public ResponseEntity<?> createRestaurant(@PathVariable int user_id, @RequestBody Restaurant restaurant) throws IOException, JSONException {
+//    public ResponseEntity<?> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws IOException, JSONException {
+    public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload ) throws IOException, JSONException {
+        System.out.println("this is payload: "+payload.toString());
+        restaurantService.addRestaurant(payload);
+        return ResponseEntity.ok().build();
     }
 
 }
