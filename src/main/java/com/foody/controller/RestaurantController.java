@@ -45,11 +45,10 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping(value = "/restaurantList")
-//    public ResponseEntity<?> getRestaurantListBySearch(@RequestBody int search) {
-//        double lat, double lng, List<FoodType> food_types, List<RestaurantType> res_types, double distance
-//        List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch();
-//        return ResponseEntity.ok().body(restaurantList);
-//    }
+    @GetMapping(value = "/restaurantList")
+    public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
+        List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch(payload);
+        return ResponseEntity.ok().body(restaurantList);
+    }
 
 }

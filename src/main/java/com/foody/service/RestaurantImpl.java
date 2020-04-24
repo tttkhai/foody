@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class RestaurantImpl implements RestaurantService{
@@ -36,7 +38,6 @@ public class RestaurantImpl implements RestaurantService{
         this.foodTypeRepository = foodTypeRepository;
         this.restaurantTypeRepository = restaurantTypeRepository;
     }
-
 
     @Override
     public List<Restaurant> allRestaurants() {
@@ -132,12 +133,35 @@ public class RestaurantImpl implements RestaurantService{
         double lat=location_object.getDouble("lat");
         double lng=location_object.getDouble(("lng"));
         double[] location;
+
         return new double[]{lat, lng};
     }
 
     @Override
-    public List<Restaurant> getRestaurantListBySearch(double lat, double lng, List<FoodType> food_types, List<RestaurantType> res_types, double distance) {
-        return restaurantRepository.getRestaurantListBySearch(lat, lng, food_types, res_types, distance);
+    public List<Restaurant> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException {
+        Restaurant restaurant = new Restaurant();
+        JSONObject json = new JSONObject(payload);
+
+        double lat=json.getDouble("lat");
+        double lng=json.getDouble("lng");
+
+/////////////        Must fix       ///////////////
+        JSONArray food_types_object = json.getJSONArray("food_types");
+        List<Integer> foodTypes = new ArrayList<>();
+        for (int i = 0; i < food_types_object.length(); i++) {
+            foodTypes.add(food_types_object.getInt(i));
+        }
+
+        /////////////        Must fix       ///////////////
+        JSONArray res_types_object = json.getJSONArray("res_types");
+        List<Integer> res_types = new ArrayList<>();
+        for (int i = 0; i < res_types_object.length(); i++) {
+            res_types.add(res_types_object.getInt(i));
+        }
+
+        int distance=json.getInt("distance");
+
+        return restaurantRepository.getRestaurantListBySearch(lat, lng, foodTypes, res_types, distance);
     }
 
 }
