@@ -7,6 +7,7 @@ import com.foody.service.RestaurantService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,15 +40,16 @@ public class RestaurantController {
     }
 
     @PostMapping(value = "/addRestaurant")
-    public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload ) throws IOException, JSONException {
+    public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload) throws IOException, JSONException {
         System.out.println("this is payload: "+payload.toString());
         restaurantService.addRestaurant(payload);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/restaurantList")
+    @PostMapping(value = "/restaurantList")
     public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
         List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch(payload);
+        System.out.println("IMPORTANT. THIS IS CONTROLLER LIST: " +restaurantList);
         return ResponseEntity.ok().body(restaurantList);
     }
 

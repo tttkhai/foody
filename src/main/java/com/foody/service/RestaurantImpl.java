@@ -139,29 +139,34 @@ public class RestaurantImpl implements RestaurantService{
 
     @Override
     public List<Restaurant> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException {
+//        JSONObject preferences = new JSONObject(new JSONObject(payload).getJSONObject("preferences").toString());
+        JSONObject preferences = new JSONObject(payload);
+
         Restaurant restaurant = new Restaurant();
-        JSONObject json = new JSONObject(payload);
+        double lat=preferences.getDouble("lat");
+        double lng=preferences.getDouble("lng");
+        System.out.println(("lat and long: "+ lat+lng));
 
-        double lat=json.getDouble("lat");
-        double lng=json.getDouble("lng");
-
-/////////////        Must fix       ///////////////
-        JSONArray food_types_object = json.getJSONArray("food_types");
+        /////////////        Must fix  --> Generic Type     ///////////////
+        JSONArray food_types_object = preferences.getJSONArray("food_types");
         List<Integer> foodTypes = new ArrayList<>();
         for (int i = 0; i < food_types_object.length(); i++) {
             foodTypes.add(food_types_object.getInt(i));
         }
 
-        /////////////        Must fix       ///////////////
-        JSONArray res_types_object = json.getJSONArray("res_types");
+        /////////////        Must fix  --> Generic Type     ///////////////
+        JSONArray res_types_object = preferences.getJSONArray("cuisine");
         List<Integer> res_types = new ArrayList<>();
         for (int i = 0; i < res_types_object.length(); i++) {
             res_types.add(res_types_object.getInt(i));
         }
 
-        int distance=json.getInt("distance");
-
-        return restaurantRepository.getRestaurantListBySearch(lat, lng, foodTypes, res_types, distance);
+        int distance=preferences.getInt("distance");
+        System.out.println("IMPORTANT: "+ lat+lng+foodTypes+res_types+distance);
+        List<Restaurant> restaurants=restaurantRepository.getRestaurantListBySearch(lat, lng, foodTypes, res_types, distance);
+        List<Restaurant> uniqueRestaurants = restaurants.stream().distinct().collect(Collectors.toList());
+        System.out.println("Restaurants: "+uniqueRestaurants);
+        return uniqueRestaurants;
     }
 
 }

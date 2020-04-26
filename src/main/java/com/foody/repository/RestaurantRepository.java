@@ -16,9 +16,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Query(value="SELECT * from restaurant r where SUBSTRING_INDEX(r.address,' ' ,-1)=?1", nativeQuery = true)
     List<Restaurant> restaurantByLocation(int zip_code);
 
-    @Query(value="SELECT * FROM restaurant r WHERE IN r.restaurant_types_id (:res_types)" +
-            "AND r.food_types.restaurant_types_id.food_id (:food_types)" +
-            "AND (Select ST_Distance_Sphere(point(r.lat, r.lng),point(?1, ?2))/1609.34) <= ?5 "
+    @Query(value="SELECT * FROM restaurant r, restaurant_food_type ft where r.restaurant_types_id IN (:res_types)" +
+            "AND (ft.food_id IN (:food_types) AND ft.restaurant_id=r.id)" +
+            "AND (Select ST_Distance_Sphere(point(r.lat, r.lng),point(:lat, :lng))/1609.34) <= (:distance) "
             , nativeQuery = true)
     List<Restaurant> getRestaurantListBySearch(double lat, double lng, @Param("food_types") List<Integer> food_types,  @Param("res_types") List<Integer> res_types, double distance) ;
 }
