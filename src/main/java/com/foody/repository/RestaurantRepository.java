@@ -25,8 +25,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     void updateDistance(double lat, double lng, @Param("food_types") List<Integer> food_types,  @Param("res_types") List<Integer> res_types, double distance) ;
 
 
-    @Query(value=
-        "SELECT * FROM restaurant r, restaurant_food_type ft where r.restaurant_types_id IN (:res_types) " +
+    @Query(value="SELECT * FROM restaurant r, restaurant_food_type ft where r.restaurant_types_id IN (:res_types) " +
         "AND (ft.food_id IN (:food_types) AND ft.restaurant_id=r.id) " +
         "AND (Select ST_Distance_Sphere(point(r.lat, r.lng),point(:lat, :lng))/1609.34) <= (:distance)"
     , nativeQuery = true)
