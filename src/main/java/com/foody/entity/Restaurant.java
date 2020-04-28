@@ -23,6 +23,7 @@ public class Restaurant {
 
     private double lat;
     private double lng;
+    private double distance;
 
     // Restaurant type
     @ManyToOne(fetch = FetchType.LAZY)

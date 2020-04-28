@@ -163,9 +163,12 @@ public class RestaurantImpl implements RestaurantService{
 
         int distance=preferences.getInt("distance");
         System.out.println("IMPORTANT: "+ lat+lng+foodTypes+res_types+distance);
+        restaurantRepository.updateDistance(lat, lng, foodTypes, res_types, distance);
+
         List<Restaurant> restaurants=restaurantRepository.getRestaurantListBySearch(lat, lng, foodTypes, res_types, distance);
+        System.out.println("Restaurants: "+restaurants);
         List<Restaurant> uniqueRestaurants = restaurants.stream().distinct().collect(Collectors.toList());
-        System.out.println("Restaurants: "+uniqueRestaurants);
+        System.out.println("UNIQUE Restaurants: "+uniqueRestaurants);
         return uniqueRestaurants;
     }
 
