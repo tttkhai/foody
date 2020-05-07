@@ -1,8 +1,10 @@
 package com.foody.entity;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -37,6 +39,4 @@ import java.util.List;
         this.phoneNumber = phoneNumber;
         this.role = role;
     }
-
-
 }
