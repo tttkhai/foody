@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 
@@ -33,28 +34,14 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-//    @GetMapping("/login")
-//    public ResponseEntity<?> login(Principal principal){
-//        if(principal==null){
-//            return ResponseEntity.ok(principal);
-//        }
-//        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken)principal;
-//        User user = userService.findByUsername(authenticationToken.getName());
-//        user.setToken(jwtTokenProvider.generateToken(authenticationToken));
-//        user.setPassword("");
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken() throws Exception {
-        System.out.println("HELLO");
+    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
+        authenticate(user.getUsername(), user.getPassword());
 
-        String token="1";
-//        authenticate(user.getUsername(), user.getPassword());
-//
-//        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
-//        System.out.println("THIS IS THE USER" +userDetails);
-//        final String token = jwtTokenUtil.generateToken(userDetails);
-//        System.out.println("THIS IS THE TOKEN" +token);
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
+        System.out.println("THIS IS THE USER" +userDetails);
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        System.out.println("THIS IS THE TOKEN" +token);
 //
         return ResponseEntity.ok(new JwtResponse(token));
     }

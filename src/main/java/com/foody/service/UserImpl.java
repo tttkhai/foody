@@ -17,8 +17,6 @@ public class UserImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
 
     @Override
     public User getUser(int id) {
