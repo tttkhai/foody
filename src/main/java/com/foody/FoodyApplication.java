@@ -14,8 +14,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication
 @Configuration
+@ComponentScan
 @EnableJpaRepositories(basePackages ={"com.foody.repository"})
 public class FoodyApplication {
 

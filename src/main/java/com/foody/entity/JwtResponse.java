@@ -1,5 +1,8 @@
 package com.foody.entity;
 
+import lombok.Data;
+
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 public class JwtResponse implements Serializable {

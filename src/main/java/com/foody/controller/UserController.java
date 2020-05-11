@@ -5,6 +5,8 @@ import com.foody.entity.JwtResponse;
 import com.foody.entity.User;
 import com.foody.service.JwtUserDetailsService;
 import com.foody.service.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -34,18 +39,39 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @GetMapping(value = "/secure/all")
+    public String secure() {
+        return "Hello";
+    }
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
+        System.out.println("Hello");
         authenticate(user.getUsername(), user.getPassword());
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         System.out.println("THIS IS THE USER" +userDetails);
-        final String token = jwtTokenUtil.generateToken(userDetails);
+//        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = getJWTToken(user.getUsername().toString());
         System.out.println("THIS IS THE TOKEN" +token);
-//
         return ResponseEntity.ok(new JwtResponse(token));
     }
-//
+
+    private String getJWTToken(String username) {
+        String secretKey = "mySecretKey";
+
+        String token = Jwts
+                .builder()
+                .setId("softtekJWT")
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        secretKey.getBytes()).compact();
+
+        return "Bearer " + token;
+    }
+
     private void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -61,16 +87,21 @@ public class UserController {
         return ResponseEntity.ok().body(jwtUserDetailsService.update(id, user));
     }
 
-//    @DeleteMapping(value = "/deleteUser/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable int id) {
-//        userService.deleteUser(id);
-//        return ResponseEntity.ok().build();
-//    }
+    @DeleteMapping(value = "/deleteUser/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
         User user = userService.getUser(id);
         return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping(value = "/addUser")
+    public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
+        return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
     }
 //
 }
