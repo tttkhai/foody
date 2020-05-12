@@ -69,6 +69,7 @@ public class UserController {
 
     @PostMapping(value = "/addUser")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
+        System.out.println("this is user "+ user.toString());
         return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
     }
 //

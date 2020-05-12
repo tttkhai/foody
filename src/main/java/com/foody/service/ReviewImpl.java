@@ -16,7 +16,7 @@ public class ReviewImpl implements ReviewService{
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private UserService userService;
+    private JwtUserDetailsService userService;
 
     @Autowired
     private RestaurantService restaurantService;

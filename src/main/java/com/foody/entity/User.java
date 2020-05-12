@@ -24,7 +24,7 @@ import java.util.List;
     private String address;
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="role_id")
     private Role role;
 

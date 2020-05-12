@@ -24,20 +24,17 @@ public class RestaurantImpl implements RestaurantService{
     InputStream inputStream;
     String result = "";
 
+    @Autowired
     private RestaurantRepository restaurantRepository;
-    private UserService userService;
-    private FoodTypeRepository foodTypeRepository;
-    private RestaurantTypeRepository restaurantTypeRepository;
-
 
     @Autowired
-    public RestaurantImpl(RestaurantRepository restaurantRepository, UserService userService,
-                          FoodTypeRepository foodTypeRepository, RestaurantTypeRepository restaurantTypeRepository) {
-        this.restaurantRepository = restaurantRepository;
-        this.userService = userService;
-        this.foodTypeRepository = foodTypeRepository;
-        this.restaurantTypeRepository = restaurantTypeRepository;
-    }
+    private JwtUserDetailsService userService;
+
+    @Autowired
+    private FoodTypeRepository foodTypeRepository;
+
+    @Autowired
+    private RestaurantTypeRepository restaurantTypeRepository;
 
     @Override
     public List<Restaurant> allRestaurants() {
