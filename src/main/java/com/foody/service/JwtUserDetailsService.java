@@ -36,8 +36,23 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User update(int id, User user) {
-        user.setId(id);
-        return userRepository.save(user);
+    public User getUser(int id) {
+        return userRepository.findById(id).map(res->{
+            return res;
+        }).orElseThrow(()->new ResourceNotFoundException("User Id  " + id + " not found"));
+    }
+
+    public User deleteUser(int id) {
+        return userRepository.findById(id).map(user -> {
+            return user;
+        }).orElseThrow(()-> new ResourceNotFoundException("there is no user with this id "+ id));
+    }
+
+    public User updateUser(int id, User user) {
+        return userRepository.findById(id).map(u -> {
+            user.setId(u.getId());
+            user.setPassword(bcryptEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        }).orElseThrow(()-> new ResourceNotFoundException("there is no user with this id "+ id));
     }
 }

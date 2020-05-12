@@ -4,33 +4,20 @@ import com.foody.config.JwtTokenUtil;
 import com.foody.entity.JwtResponse;
 import com.foody.entity.User;
 import com.foody.service.JwtUserDetailsService;
-import com.foody.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
 
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
-
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
@@ -65,18 +52,18 @@ public class UserController {
 
     @PutMapping(value = "/updateUserInfo/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable int id, @RequestBody User user) {
-        return ResponseEntity.ok().body(jwtUserDetailsService.update(id, user));
+        return ResponseEntity.ok().body(jwtUserDetailsService.updateUser(id, user));
     }
 
     @DeleteMapping(value = "/deleteUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
+        jwtUserDetailsService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
-        User user = userService.getUser(id);
+        User user = jwtUserDetailsService.getUser(id);
         return ResponseEntity.ok().body(user);
     }
 
