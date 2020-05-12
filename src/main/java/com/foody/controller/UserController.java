@@ -46,30 +46,11 @@ public class UserController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
-        System.out.println("Hello");
         authenticate(user.getUsername(), user.getPassword());
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
-        System.out.println("THIS IS THE USER" +userDetails);
-//        final String token = jwtTokenUtil.generateToken(userDetails);
-        final String token = getJWTToken(user.getUsername().toString());
-        System.out.println("THIS IS THE TOKEN" +token);
+        final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    private String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
-
-        String token = Jwts
-                .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
-
-        return "Bearer " + token;
     }
 
     private void authenticate(String username, String password) throws Exception {
