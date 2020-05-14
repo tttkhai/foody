@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     static {
         String[] urls = new String[] {
                 "/api/**",
-                "/authenticate",
+                "/login",
                 "/addUser"
         };
 

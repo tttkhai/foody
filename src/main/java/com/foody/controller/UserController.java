@@ -3,6 +3,7 @@ package com.foody.controller;
 import com.foody.config.JwtTokenUtil;
 import com.foody.entity.JwtResponse;
 import com.foody.entity.User;
+import com.foody.repository.UserRepository;
 import com.foody.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -22,22 +25,22 @@ public class UserController {
     private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping(value = "/secure/all")
-    public String secure() {
-        return "Hello";
-    }
-
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
-
+        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        Map map = new HashMap<>();
+        map.put("token",token);
+        map.put("user", authenticatedUser);
+        return ResponseEntity.ok().body(map);
     }
 
     private void authenticate(String username, String password) throws Exception {

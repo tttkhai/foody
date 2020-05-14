@@ -37,8 +37,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public User getUser(int id) {
-        return userRepository.findById(id).map(res->{
-            return res;
+        return userRepository.findById(id).map(user->{
+            return user;
         }).orElseThrow(()->new ResourceNotFoundException("User Id  " + id + " not found"));
     }
 
