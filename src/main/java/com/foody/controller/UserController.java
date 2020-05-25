@@ -34,12 +34,12 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
-        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
+//        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         Map map = new HashMap<>();
         map.put("token",token);
-        map.put("user", authenticatedUser);
+//        map.put("user", authenticatedUser);
         return ResponseEntity.ok().body(map);
     }
 
@@ -72,7 +72,6 @@ public class UserController {
 
     @PostMapping(value = "/addUser")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
-        System.out.println("this is user "+ user.toString());
         return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
     }
 //

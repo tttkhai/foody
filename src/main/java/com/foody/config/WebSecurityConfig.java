@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import com.foody.config.Constants;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +45,7 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public String SPRING_URLS_IGNORING=String.join(", ", Constants.SPRING_URLS_IGNORING);
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -75,53 +77,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    private static final RequestMatcher SECURITY_EXCLUSION_MATCHER;
-    static {
-        String[] urls = new String[] {
-                "/api/**",
-                "/login",
-                "/addUser"
-        };
-
-        //Build Matcher List
-        LinkedList<RequestMatcher> matcherList = new LinkedList<>();
-        for (String url : urls) {
-            matcherList.add(new AntPathRequestMatcher(url));
-        }
-
-        //Link Matchers in "OR" config.
-        SECURITY_EXCLUSION_MATCHER = new OrRequestMatcher(matcherList);
-    }
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.csrf().disable()
-//                // dont authenticate this particular request
-//                .authorizeRequests()
-//                .antMatchers("**/authenticate", "**/addUser")
-////                .antMatchers("/api/**")
-//                .permitAll()
+        httpSecurity.cors().and().csrf().disable()
+                // dont authenticate this particular request
+                .authorizeRequests()
+                .antMatchers(SPRING_URLS_IGNORING)
+                .permitAll()
 //                // all other requests need to be authenticated
-//                .antMatchers("/api/**")
-//                .permitAll().anyRequest().authenticated().and()
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.authorizeRequests()
-                .requestMatchers(SECURITY_EXCLUSION_MATCHER).permitAll();
-        httpSecurity.cors();
+                .antMatchers("/api/**")
+                .permitAll()
+                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
     @Override
     public void configure(WebSecurity webSecurity) throws Exception
     {
-//        webSecurity
-//                .ignoring()
-//                // All of Spring Security will ignore the requests
-//                .antMatchers("/api/**")
-//                .antMatchers("/**/authenticate")
-//                .antMatchers("/**/addUser");
-////                .antMatchers("/api/**");
-        webSecurity.ignoring().requestMatchers(SECURITY_EXCLUSION_MATCHER);
+        webSecurity
+                .ignoring()
+                // All of Spring Security will ignore the requests
+                .antMatchers("/api/**")
+                .antMatchers("/**/login")
+                .antMatchers("/**/addUser");
+//                .antMatchers("/api/**");
+//        webSecurity.ignoring().requestMatchers(SECURITY_EXCLUSION_MATCHER);
 
     }
 
@@ -138,31 +122,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 }
-
-class DelegateRequestMatchingFilter implements Filter {
-    private Filter delegate;
-    private RequestMatcher ignoredRequests;
-
-    public DelegateRequestMatchingFilter(RequestMatcher matcher, Filter delegate) {
-        this.ignoredRequests = matcher;
-        this.delegate = delegate;
-    }
-
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        if(ignoredRequests.matches(request)) {
-            chain.doFilter(req,resp);
-        } else {
-            delegate.doFilter(req,resp,chain);
-        }
-    }
-
-    public void init(FilterConfig filterConfig) throws ServletException {
-        delegate.init(filterConfig);
-    }
-
-    public void destroy() {
-        delegate.destroy();
-    }
-}
-
