@@ -45,7 +45,6 @@ import com.foody.config.Constants;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public String SPRING_URLS_IGNORING=String.join(", ", Constants.SPRING_URLS_IGNORING);
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -82,10 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers(SPRING_URLS_IGNORING)
-                .permitAll()
-//                // all other requests need to be authenticated
-                .antMatchers("/api/**")
+                .antMatchers("**/login", "**/addUser", "/roles", "/city/**", "/country","/getFoodTypes", "/results", "/restaurantList","/restaurants","/restaurant/**","/states/**","/restaurantTypes","/restaurantType/**", "/reviews")
                 .permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -104,7 +100,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**")
                 .antMatchers("/**/login")
                 .antMatchers("/**/addUser");
-//                .antMatchers("/api/**");
 //        webSecurity.ignoring().requestMatchers(SECURITY_EXCLUSION_MATCHER);
 
     }

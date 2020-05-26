@@ -21,9 +21,9 @@ import java.util.Map;
 
 @RestController
 public class UserController {
+
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -34,12 +34,12 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
-//        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
+        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         Map map = new HashMap<>();
-        map.put("token",token);
-//        map.put("user", authenticatedUser);
+        map.put("token", token);
+        map.put("user", authenticatedUser);
         return ResponseEntity.ok().body(map);
     }
 
@@ -66,13 +66,17 @@ public class UserController {
 
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
-        User user = jwtUserDetailsService.getUser(id);
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(jwtUserDetailsService.getUser(id));
     }
 
     @PostMapping(value = "/addUser")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
-        return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
+        User existing_user = userRepository.findUserByUserName(user.getUsername().toString());
+        if(existing_user==null){
+            return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
+        }
+        else{
+            return ResponseEntity.status(409).body("Duplicate username");
+        }
     }
-//
 }

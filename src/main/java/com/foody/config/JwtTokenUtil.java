@@ -17,13 +17,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import com.foody.config.Constants;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-    private static final long serialVersionUID = -2550185165626007488L;
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    private long serialVersionUID = Constants.SERIALVERSIONUID;
+    public long JWT_TOKEN_VALIDITY = Constants.JWT_TOKEN_VALIDITY;
 
-    private final String secret="foodyApplication";
+    private final String secret=Constants.SECRET;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {

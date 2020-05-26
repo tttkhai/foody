@@ -42,8 +42,9 @@ public class JwtUserDetailsService implements UserDetailsService {
         }).orElseThrow(()->new ResourceNotFoundException("User Id  " + id + " not found"));
     }
 
-    public User deleteUser(int id) {
-        return userRepository.findById(id).map(user -> {
+    public void deleteUser(int id) {
+        userRepository.findById(id).map(user -> {
+            userRepository.delete(user);
             return user;
         }).orElseThrow(()-> new ResourceNotFoundException("there is no user with this id "+ id));
     }
