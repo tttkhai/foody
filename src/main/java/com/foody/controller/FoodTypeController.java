@@ -12,12 +12,12 @@ public class FoodTypeController {
     @Autowired
     private FoodTypeService foodTypeService;
 
-    @GetMapping(value = "/getFoodTypes")
+    @GetMapping(value = "/foodTypes")
     public ResponseEntity<?> getAllFoodType(){
         return ResponseEntity.ok().body(foodTypeService.getAllFoodTypes());
     }
 
-    @GetMapping(value = "/getFoodType/{id}")
+    @GetMapping(value = "/foodType/{id}")
     public ResponseEntity<?> getAllFoodType(@PathVariable int id){
         return ResponseEntity.ok().body(foodTypeService.getFoodType(id));
     }

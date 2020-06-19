@@ -39,7 +39,7 @@ public class RestaurantController {
         return ResponseEntity.ok().body(restaurants);
     }
 
-    @PostMapping(value = "/addRestaurant")
+    @PostMapping(value = "/newRestaurant")
     public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload) throws IOException, JSONException {
         System.out.println("this is payload: "+payload.toString());
         restaurantService.addRestaurant(payload);

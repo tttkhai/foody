@@ -13,17 +13,17 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping(value = "/addReview")
+    @PostMapping(value = "/newReview")
     public Review createReview(@RequestBody Review review) {
         return reviewService.addReviews(review);
     }
 
-    @PutMapping(value = "/updateReview/{id}")
+    @PutMapping(value = "/review/{id}")
     public ResponseEntity<?> updateReviews(@PathVariable int id, @RequestBody Review review) {
         return ResponseEntity.ok().body(reviewService.updateReviews(id, review));
     }
 
-    @DeleteMapping(value = "/deleteReview/{id}")
+    @DeleteMapping(value = "/review/{id}")
     public ResponseEntity<?> deleteReviews(@PathVariable int id) {
         reviewService.deleteReviews(id);
         return ResponseEntity.ok().build();

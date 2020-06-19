@@ -53,12 +53,12 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "/updateUserInfo/{id}")
+    @PutMapping(value = "/user/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable int id, @RequestBody User user) {
         return ResponseEntity.ok().body(jwtUserDetailsService.updateUser(id, user));
     }
 
-    @DeleteMapping(value = "/deleteUser/{id}")
+    @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
         jwtUserDetailsService.deleteUser(id);
         return ResponseEntity.ok().build();
@@ -69,7 +69,7 @@ public class UserController {
         return ResponseEntity.ok().body(jwtUserDetailsService.getUser(id));
     }
 
-    @PostMapping(value = "/addUser")
+    @PostMapping(value = "/newUser")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
         User existing_user = userRepository.findUserByUserName(user.getUsername().toString());
         if(existing_user==null){
