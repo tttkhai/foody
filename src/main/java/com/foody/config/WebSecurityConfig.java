@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("**/login", "**/newUser", "/roles", "/city/**", "/country","/getFoodTypes", "/results", "/restaurantList","/restaurants","/restaurant/**","/states/**","/restaurantTypes","/restaurantType/**", "/reviews")
+                .antMatchers("**/login", "**/newUser", "/roles", "/city/**", "/country","/foodTypes", "/results", "/restaurantList","/restaurants","/restaurant/**","/states/**","/restaurantTypes","/restaurantType/**", "/reviews")
                 .permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
