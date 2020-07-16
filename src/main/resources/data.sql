@@ -1,7 +1,7 @@
 -------- insert country values ----------
  INSERT INTO `foodydb`.`country` (`id`, `name`, `phone_code`) VALUES ('1', 'US', '+1');
 
- insert state values
+ -------- insert state values --------
  INSERT INTO `foodydb`.`state` (`id`, `abbreviation`, `name`, `country_id`) VALUES (1, 'GA', 'Georgia', 1);
  INSERT INTO `foodydb`.`state` (`id`, `abbreviation`, `name`, `country_id`) VALUES (2, 'TX', 'Texas', 1);
  INSERT INTO `foodydb`.`state` (`id`, `abbreviation`, `name`, `country_id`) VALUES (3, 'OH', 'Ohio', 1);
@@ -17,6 +17,13 @@
 
 -------- insert food type join table ----------
 INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUES (1, 1);
+
+-------- insert restaurant type join table ----------
+INSERT INTO `foodydb`.`restaurant_restaurant_type` ( `restaurant_id`, `type_id`) VALUES (1, 1);
+
+-------- insert user_role join table ----------
+INSERT INTO `foodydb`.`user_role` ( `role_id`, `user_id`) VALUES (1, 1);
+
 
 -------- insert food type table ----------
 INSERT INTO `foodydb`.`food_type` VALUES (1, 'BBQ/Steak');
@@ -38,5 +45,3 @@ INSERT INTO `foodydb`.`restaurant_type` VALUES (5, 'American');
 INSERT INTO `foodydb`.`role` VALUES (1, 'Admin');
 INSERT INTO `foodydb`.`role` VALUES (2, 'User');
 
--------- insert User table ----------
-INSERT INTO `foodydb`.`user` VALUES ('1', '246 Heathrow dr Riverdale GA 30274', 'khai@gmail.com', 'Khai', 'Tran', '1234', '4049881985', 'tttkhai')
