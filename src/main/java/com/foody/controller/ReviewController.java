@@ -17,8 +17,7 @@ public class ReviewController {
     public Review createReview(@RequestBody Review review)
     {
         System.out.println("This is review: "+review);
-//        return reviewService.addReviews(review);
-        return null;
+        return reviewService.addReviews(review);
     }
 
     @PutMapping(value = "/review/{id}")
