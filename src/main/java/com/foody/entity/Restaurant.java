@@ -38,6 +38,7 @@ public class Restaurant {
             joinColumns= {@JoinColumn(name="restaurant_id")},
             inverseJoinColumns = {@JoinColumn(name = "food_id")}
     )
+    @JsonIgnore
     private List<FoodType> food_types;
 
     public Restaurant(){}

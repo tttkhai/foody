@@ -14,8 +14,11 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping(value = "/newReview")
-    public Review createReview(@RequestBody Review review) {
-        return reviewService.addReviews(review);
+    public Review createReview(@RequestBody Review review)
+    {
+        System.out.println("This is review: "+review);
+//        return reviewService.addReviews(review);
+        return null;
     }
 
     @PutMapping(value = "/review/{id}")
@@ -29,9 +32,9 @@ public class ReviewController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/reviews")
-    public ResponseEntity<?> getReviewsByRestaurant(@RequestParam(name="restaurant") int id) {
-        List<Review> reviews = reviewService.getReviewByRestaurant(id);
+    @GetMapping(value = "/reviews/{restaurant_id}")
+    public ResponseEntity<?> getReviewsByRestaurant(@PathVariable int restaurant_id) {
+        List<Review> reviews = reviewService.getReviewByRestaurant(restaurant_id);
         return ResponseEntity.ok().body(reviews);
     }
 

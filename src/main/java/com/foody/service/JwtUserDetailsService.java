@@ -23,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findUserByUserName(username);
-        System.out.println("this is user "+ (user==null));
+        System.out.println("this is user "+ user);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

@@ -22,7 +22,7 @@ INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUE
 INSERT INTO `foodydb`.`restaurant_restaurant_type` ( `restaurant_id`, `type_id`) VALUES (1, 1);
 
 -------- insert user_role join table ----------
-INSERT INTO `foodydb`.`user_role` ( `role_id`, `user_id`) VALUES (1, 1);
+INSERT INTO `foodydb`.`user_role` (`role_id`, `user_id`) VALUES (1, 1);
 
 
 -------- insert food type table ----------
