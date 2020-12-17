@@ -41,7 +41,6 @@ public class RestaurantController {
 
     @PostMapping(value = "/newRestaurant")
     public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload) throws IOException, JSONException {
-        System.out.println("this is payload: "+payload.toString());
         restaurantService.addRestaurant(payload);
         return ResponseEntity.ok().build();
     }
@@ -49,7 +48,6 @@ public class RestaurantController {
     @PostMapping(value = "/restaurantList")
     public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
         List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch(payload);
-        System.out.println("IMPORTANT. THIS IS CONTROLLER LIST: " +restaurantList);
         return ResponseEntity.ok().body(restaurantList);
     }
 

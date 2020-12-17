@@ -70,13 +70,17 @@ public class RestaurantImpl implements RestaurantService{
             foodTypes.add(foodType);
         }
 
-        RestaurantType restaurantType = restaurantTypeRepository.getType(restaurant_object.getInt("restaurant_types_id"));
+        JSONArray restaurant_types_object = restaurant_object.getJSONArray("restaurant_types_id");
+        List<RestaurantType> restaurantTypes = new ArrayList<>();
+        for (int i = 0; i < restaurant_types_object.length(); i++) {
+            restaurantTypes.add(restaurantTypeRepository.getType(restaurant_types_object.getInt(i))) ;
+        }
 
         restaurant.setName(restaurant_object.getString("name"));
         restaurant.setEmail(restaurant_object.getString("email"));
         restaurant.setAddress(restaurant_object.getString("address"));
         restaurant.setPhoneNumber(restaurant_object.getString("phoneNumber"));
-        restaurant.setRestaurant_type(restaurantType);
+        restaurant.setRestaurant_types(restaurantTypes);
         restaurant.setFood_types(foodTypes);
 
         double[] location= getLocation_object(restaurant.getAddress());
@@ -109,7 +113,6 @@ public class RestaurantImpl implements RestaurantService{
         }
 
         String google_key_api=prop.getProperty("google_key_api");
-        System.out.println("this is API key: "+google_key_api);
         String encoded_address=String.join("+", address.split(" "));
         String string_url="https://maps.googleapis.com/maps/api/geocode/json?address="+encoded_address+"&key="+google_key_api;
 
@@ -136,13 +139,11 @@ public class RestaurantImpl implements RestaurantService{
 
     @Override
     public List<Restaurant> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException {
-//        JSONObject preferences = new JSONObject(new JSONObject(payload).getJSONObject("preferences").toString());
         JSONObject preferences = new JSONObject(payload);
 
         Restaurant restaurant = new Restaurant();
         double lat=preferences.getDouble("lat");
         double lng=preferences.getDouble("lng");
-        System.out.println(("lat and long: "+ lat+lng));
 
         /////////////        Must fix  --> Generic Type     ///////////////
         JSONArray food_types_object = preferences.getJSONArray("food_types");
@@ -159,13 +160,9 @@ public class RestaurantImpl implements RestaurantService{
         }
 
         int distance=preferences.getInt("distance");
-        System.out.println("IMPORTANT: "+ lat+lng+foodTypes+res_types+distance);
-        restaurantRepository.updateDistance(lat, lng, foodTypes, res_types, distance);
+        List<Restaurant> restaurants= restaurantRepository.getRestaurantResults(lat, lng, foodTypes, res_types, distance);
 
-        List<Restaurant> restaurants=restaurantRepository.getRestaurantListBySearch(lat, lng, foodTypes, res_types, distance);
-        System.out.println("Restaurants: "+restaurants);
         List<Restaurant> uniqueRestaurants = restaurants.stream().distinct().collect(Collectors.toList());
-        System.out.println("UNIQUE Restaurants: "+uniqueRestaurants);
         return uniqueRestaurants;
     }
 

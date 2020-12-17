@@ -20,11 +20,12 @@ public class City {
     @JsonIgnore
     private State state;
 
+    public City(){}
+
     public City(int id, String name, int zip_code, State state) {
         this.id = id;
         this.name = name;
         this.zip_code = zip_code;
         this.state = state;
     }
-    public City(){}
 }

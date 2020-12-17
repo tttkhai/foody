@@ -15,6 +15,7 @@ public class RestaurantType {
     private String type_name;
 
     public RestaurantType(){}
+
     public RestaurantType(int id, String type_name) {
         this.id = id;
         this.type_name = type_name;

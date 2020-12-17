@@ -30,6 +30,17 @@ import java.util.List;
 
     public User(){}
 
+    public User(int id, String username, String password, String firstName, String lastName, String email, String address, String phoneNumber, Role role){
+        this.id=id;
+        this.username=username;
+        this.password=password;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email;
+        this.address=address;
+        this.phoneNumber=phoneNumber;
+        this.role=role;
+    }
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> role = new ArrayList<>();
         role.add(new SimpleGrantedAuthority(this.role.getName()));

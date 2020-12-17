@@ -17,12 +17,12 @@
 
 -------- insert food type join table ----------
 INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUES (1, 1);
+INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUES (1, 3);
+INSERT INTO `foodydb`.`restaurant_food_type` ( `restaurant_id`, `food_id`) VALUES (2, 4);
 
 -------- insert restaurant type join table ----------
 INSERT INTO `foodydb`.`restaurant_restaurant_type` ( `restaurant_id`, `type_id`) VALUES (1, 1);
-
--------- insert user_role join table ----------
-INSERT INTO `foodydb`.`user_role` (`role_id`, `user_id`) VALUES (1, 1);
+INSERT INTO `foodydb`.`restaurant_restaurant_type` ( `restaurant_id`, `type_id`) VALUES (2, 3);
 
 
 -------- insert food type table ----------
@@ -44,4 +44,8 @@ INSERT INTO `foodydb`.`restaurant_type` VALUES (5, 'American');
 -------- insert Role table ----------
 INSERT INTO `foodydb`.`role` VALUES (1, 'Admin');
 INSERT INTO `foodydb`.`role` VALUES (2, 'User');
+
+-------- insert Restaurant table ----------
+INSERT INTO `foodydb`.`restaurant` VALUES (1, '246 Heathrow dr Riverdale, GA 30274', 'pho@gmail.com', 33.571369, -84.398567,'Pho VN', '43412343241');
+INSERT INTO `foodydb`.`restaurant` VALUES (2, '7050 Highway 85, Riverdale, GA 30274', 'crawfish@gmail.com', 33.56363, -84.41098, 'Crawfish Restaurant', '404432432');
 

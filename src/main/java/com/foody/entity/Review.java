@@ -46,4 +46,15 @@ public class Review {
     private User user;
 
     public Review(){}
+
+    public Review(int id, int cleanliness, int customer_service, int deliver, int taste, String comment, Restaurant restaurant, User user){
+        this.id=id;
+        this.cleanliness=cleanliness;
+        this.customer_service=customer_service;
+        this.deliver=deliver;
+        this.taste=taste;
+        this.comment=comment;
+        this.restaurant=restaurant;
+        this.user=user;
+    }
 }

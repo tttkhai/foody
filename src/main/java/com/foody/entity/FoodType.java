@@ -15,15 +15,6 @@ public class FoodType {
 
     public String food_type;
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "food_types")
-//    @JsonIgnore
-//    private List<Restaurant> restaurants;
-
     public FoodType(){}
 
     public FoodType(int id, String food_type) {

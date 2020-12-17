@@ -23,14 +23,16 @@ public class Restaurant {
 
     private double lat;
     private double lng;
-    private double distance;
 
     // Restaurant type
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_types_id")
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="Restaurant_RestaurantType",
+            joinColumns= {@JoinColumn(name="restaurant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "type_id")}
+    )
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private RestaurantType restaurant_type;
+    private List<RestaurantType> restaurant_types;
 
     // food type
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -42,11 +44,16 @@ public class Restaurant {
     private List<FoodType> food_types;
 
     public Restaurant(){}
-
-    // reviews
-//    @OneToMany(cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY,
-//            mappedBy = "restaurant")
-//    private List<Review> reviews;
-
+    public Restaurant(int id, String name, String email, String address, String phoneNumber, double lat, double lng, List<RestaurantType> restaurant_types,
+                      List<FoodType> food_types) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.lat = lat;
+        this.lng = lng;
+        this.restaurant_types = restaurant_types;
+        this.food_types = food_types;
+    }
 }
