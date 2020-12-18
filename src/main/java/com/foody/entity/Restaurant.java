@@ -20,11 +20,8 @@ public class Restaurant {
     private String email;
     private String address;
     private String phoneNumber;
-
     private double lat;
     private double lng;
-    private double distance;
-
 
     // Restaurant type
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
@@ -46,7 +43,8 @@ public class Restaurant {
     private List<FoodType> food_types;
 
     public Restaurant(){}
-    public Restaurant(int id, String name, String email, String address, String phoneNumber,
+    public Restaurant(int id, String name, String email, String address,
+                      String phoneNumber,
                       double lat, double lng,
                       List<RestaurantType> restaurant_types, List<FoodType> food_types) {
         this.id = id;
@@ -65,9 +63,6 @@ public class Restaurant {
         String getEmail();
         String getAddress();
         String getPhoneNumber();
-
-        String getLat();
-        String getLng();
-        String getDistance();
+        double getDistance();
     }
 }

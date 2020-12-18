@@ -16,11 +16,9 @@ public interface RestaurantService {
 
     List<Restaurant> restaurantByLocation(int zip_code);
 
-//    Restaurant addRestaurant(int user_id, Restaurant restaurant) throws IOException, JSONException;
     void addRestaurant(Map<String, Object> payload) throws IOException, JSONException;
 
     List<Restaurant.SearchRestaurantInterface> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException;
 
     double[] getLocation_object(String url) throws IOException, JSONException;
-
 }

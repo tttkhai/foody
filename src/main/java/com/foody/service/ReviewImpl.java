@@ -45,8 +45,10 @@ public class ReviewImpl implements ReviewService{
     public Review addReviews(Review review) {
         User user= userService.getUser(review.getUser().getId());
         Restaurant restaurant = restaurantService.restaurantById(review.getRestaurant().getId());
-        review.setUser(user);
-        review.setRestaurant(restaurant);
+        if(user !=null && restaurant!=null){
+            review.setUser(user);
+            review.setRestaurant(restaurant);
+        }
         return reviewRepository.save(review);
     }
 

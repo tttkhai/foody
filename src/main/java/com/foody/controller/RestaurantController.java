@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.security.provider.certpath.OCSPResponse;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +31,13 @@ public class RestaurantController {
 
     @GetMapping(value = "/restaurant/{id}")
     public ResponseEntity<?> getRestaurantById(@PathVariable int id) {
-        Restaurant restaurant = restaurantService.restaurantById(id);
-        return ResponseEntity.ok().body(restaurant);
+        try{
+            Restaurant restaurant = restaurantService.restaurantById(id);
+            return ResponseEntity.ok().body(restaurant);
+        } catch (Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @GetMapping(value = "/results")
