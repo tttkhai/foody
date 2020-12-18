@@ -16,7 +16,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @Query(value="SELECT * from restaurant r where SUBSTRING_INDEX(r.address,' ' ,-1)=?1", nativeQuery = true)
     List<Restaurant> restaurantByLocation(int zip_code);
 
-    @Query(value="Select distinct address,email, name, phone_number, " +
+    @Query(value="Select distinct address,email, name, phone_number as phoneNumber, " +
             "ROUND(10193.6* ACOS(LEAST(COS(RADIANS(r.lat))*COS(RADIANS(:lat)) * COS(RADIANS(r.lng - (:lng)))+ SIN(RADIANS(r.lat)) * SIN(RADIANS(:lat)),1.0)),2) as distance "+
             "from restaurant as r "+
             "join restaurant_restaurant_type as rrt on rrt.restaurant_id=r.id "+
