@@ -47,7 +47,7 @@ public class RestaurantController {
 
     @PostMapping(value = "/restaurantList")
     public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
-        List<Restaurant> restaurantList=restaurantService.getRestaurantListBySearch(payload);
+        List<Restaurant.SearchRestaurantInterface> restaurantList=restaurantService.getRestaurantListBySearch(payload);
         return ResponseEntity.ok().body(restaurantList);
     }
 

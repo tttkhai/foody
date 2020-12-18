@@ -138,21 +138,19 @@ public class RestaurantImpl implements RestaurantService{
     }
 
     @Override
-    public List<Restaurant> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException {
+    public List<Restaurant.SearchRestaurantInterface> getRestaurantListBySearch(Map<String, Object> payload) throws JSONException {
         JSONObject preferences = new JSONObject(payload);
 
         Restaurant restaurant = new Restaurant();
         double lat=preferences.getDouble("lat");
         double lng=preferences.getDouble("lng");
 
-        /////////////        Must fix  --> Generic Type     ///////////////
         JSONArray food_types_object = preferences.getJSONArray("food_types");
         List<Integer> foodTypes = new ArrayList<>();
         for (int i = 0; i < food_types_object.length(); i++) {
             foodTypes.add(food_types_object.getInt(i));
         }
 
-        /////////////        Must fix  --> Generic Type     ///////////////
         JSONArray res_types_object = preferences.getJSONArray("cuisine");
         List<Integer> res_types = new ArrayList<>();
         for (int i = 0; i < res_types_object.length(); i++) {
@@ -160,10 +158,9 @@ public class RestaurantImpl implements RestaurantService{
         }
 
         int distance=preferences.getInt("distance");
-        List<Restaurant> restaurants= restaurantRepository.getRestaurantResults(lat, lng, foodTypes, res_types, distance);
+        List<Restaurant.SearchRestaurantInterface> restaurants= restaurantRepository.getRestaurantResults(lat, lng, foodTypes, res_types, distance);
 
-        List<Restaurant> uniqueRestaurants = restaurants.stream().distinct().collect(Collectors.toList());
-        return uniqueRestaurants;
+        return restaurants;
     }
 
 }
