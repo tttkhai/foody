@@ -1,5 +1,5 @@
 # Foody
-Foody is a web application which enhances the capability of searching for local restaurants when users come to a new place.
+Foody is a web application which enhances the capability of searching for local restaurants when users travel to a new place.
 1. Ability to create an account.
 2. Use Spring Security for authentication/authorization which increases the security for the app.
 3. Enable geolocation to determine current users's location.
