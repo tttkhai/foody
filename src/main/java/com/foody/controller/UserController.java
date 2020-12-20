@@ -38,6 +38,7 @@ public class UserController {
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         Map map = new HashMap<>();
+        map.put("id", authenticatedUser.getId());
         map.put("username", authenticatedUser.getUsername());
         map.put("firstName", authenticatedUser.getFirstName());
         map.put("lastName", authenticatedUser.getLastName());

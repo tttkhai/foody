@@ -2,12 +2,13 @@ package com.foody.service;
 
 import com.foody.entity.*;
 import com.foody.repository.ReviewRepository;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReviewImpl implements ReviewService{
@@ -42,14 +43,16 @@ public class ReviewImpl implements ReviewService{
     }
 
     @Override
-    public Review addReviews(Review review) {
-        User user= userService.getUser(review.getUser().getId());
-        Restaurant restaurant = restaurantService.restaurantById(review.getRestaurant().getId());
-        if(user !=null && restaurant!=null){
-            review.setUser(user);
-            review.setRestaurant(restaurant);
-        }
-        return reviewRepository.save(review);
+    public Review addReview(Map<String, Object> review) throws JSONException {
+        JSONObject json = new JSONObject(review);
+        int cleanliness = json.getInt("cleanliness");
+        int customer_service = json.getInt("customer_service");
+        int taste = json.getInt("taste");
+        int deliver = json.getInt("deliver");
+        String comment = json.getString("comment");
+        int restaurant_id = json.getInt("restaurant_id");
+        int user_id = json.getInt("user_id");
+        return reviewRepository.addReview(cleanliness, customer_service, deliver, taste, comment, restaurant_id, user_id);
     }
 
 }

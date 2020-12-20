@@ -2,11 +2,14 @@ package com.foody.controller;
 
 import com.foody.entity.Review;
 import com.foody.service.ReviewService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ReviewController {
@@ -14,9 +17,16 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping(value = "/newReview")
-    public Review createReview(@RequestBody Review review)
+    public ResponseEntity<?> createReview(@Valid @RequestBody Map<String, Object> payload) throws JSONException
     {
-        return reviewService.addReviews(review);
+        try
+        {
+            Review review = reviewService.addReview(payload);
+            return ResponseEntity.ok(review);
+        } catch(Exception e)
+        {
+            return ResponseEntity.status(400).body(e.toString());
+        }
     }
 
     @PutMapping(value = "/review/{id}")

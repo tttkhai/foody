@@ -49,3 +49,20 @@ INSERT INTO `foodydb`.`role` VALUES (2, 'User');
 INSERT INTO `foodydb`.`restaurant` VALUES (1, '246 Heathrow dr Riverdale, GA 30274', 'pho@gmail.com', 33.571369, -84.398567,'Pho VN', '43412343241');
 INSERT INTO `foodydb`.`restaurant` VALUES (2, '7050 Highway 85, Riverdale, GA 30274', 'crawfish@gmail.com', 33.56363, -84.41098, 'Crawfish Restaurant', '404432432');
 
+
+-------- Procedure to add new review ----------
+CREATE PROCEDURE `AddReview`(IN cleanliness INT, IN customer_service INT, IN deliver INT, IN taste INT, IN comment_str varchar(200), IN restaurant_id  INT, IN user_id INT)
+BEGIN
+	DECLARE isUserExist int;
+    DECLARE isRestaurantExist int;
+    SET isUserExist = 0;
+    SET isRestaurantExist = 0;
+    SELECT count(*) INTO isUserExist from `foodydb`.`user` WHERE id = user_id;
+	SELECT count(*) INTO isRestaurantExist from `foodydb`.`restaurant` WHERE id = restaurant_id;
+    IF(isUserExist>0 AND isRestaurantExist>0) THEN
+		INSERT INTO `foodydb`.`review`(`cleanliness`, `comment`, `customer_service`, `deliver`, `taste`,`restaurant_id`,`user_id`)
+        VALUES
+        (cleanliness, comment_str, customer_service, deliver,taste,restaurant_id,user_id);
+	END IF;
+END
+
