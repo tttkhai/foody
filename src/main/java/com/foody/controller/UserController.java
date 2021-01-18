@@ -1,7 +1,6 @@
 package com.foody.controller;
 
 import com.foody.config.JwtTokenUtil;
-import com.foody.entity.JwtResponse;
 import com.foody.entity.User;
 import com.foody.repository.UserRepository;
 import com.foody.service.JwtUserDetailsService;
@@ -11,7 +10,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,18 +36,26 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
-        final User authenticatedUser = userRepository.findUserByUserName(user.getUsername());
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtTokenUtil.generateToken(user.getUsername());
         Map map = new HashMap<>();
-        map.put("id", authenticatedUser.getId());
-        map.put("username", authenticatedUser.getUsername());
-        map.put("firstName", authenticatedUser.getFirstName());
-        map.put("lastName", authenticatedUser.getLastName());
         map.put("token", token);
-
         return ResponseEntity.ok().body(map);
     }
+
+    @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
+    public ResponseEntity<?> getUserProfile() throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final UserDetails user = (UserDetails) authentication.getPrincipal();
+        final User userProfile = userRepository.findUserByUserName(user.getUsername());
+
+        Map map = new HashMap<>();
+        map.put("user_id", userProfile.getId());
+        map.put("user_name", userProfile.getUsername());
+        map.put("first_name", userProfile.getFirstName());
+        map.put("last_name", userProfile.getLastName());
+        return ResponseEntity.ok().body(map);
+    }
+
 
     private void authenticate(String username, String password) throws Exception {
         try {

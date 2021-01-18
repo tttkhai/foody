@@ -55,8 +55,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // if token is valid configure Spring Security to manually set
             // authentication
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-                // List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//              // grantedAuthorities.add(new SimpleGrantedAuthority(userDetails.));
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
