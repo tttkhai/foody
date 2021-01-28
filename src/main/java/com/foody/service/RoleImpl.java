@@ -1,6 +1,5 @@
 package com.foody.service;
 
-import com.foody.entity.Country;
 import com.foody.entity.Role;
 import com.foody.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.security.provider.certpath.OCSPResponse;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/restaurantList")
+    @PostMapping(value = "/search/restaurantList")
     public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
         List<Restaurant.SearchRestaurantInterface> restaurantList=restaurantService.getRestaurantListBySearch(payload);
         return ResponseEntity.ok().body(restaurantList);

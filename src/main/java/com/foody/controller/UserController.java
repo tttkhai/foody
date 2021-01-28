@@ -37,6 +37,7 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
         final String token = jwtTokenUtil.generateToken(user.getUsername());
+        System.out.println("this is token: "+token);
         Map map = new HashMap<>();
         map.put("token", token);
         return ResponseEntity.ok().body(map);
@@ -83,13 +84,12 @@ public class UserController {
         return ResponseEntity.ok().body(jwtUserDetailsService.getUser(id));
     }
 
-    @PostMapping(value = "/newUser")
+    @PostMapping(value = "/register")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
         User existing_user = userRepository.findUserByUserName(user.getUsername().toString());
         if(existing_user==null){
             return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
-        }
-        else{
+        } else{
             return ResponseEntity.status(409).body("Duplicate username");
         }
     }

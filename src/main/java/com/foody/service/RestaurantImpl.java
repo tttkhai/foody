@@ -1,6 +1,5 @@
 package com.foody.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foody.entity.FoodType;
 import com.foody.entity.Restaurant;
 import com.foody.entity.RestaurantType;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class RestaurantImpl implements RestaurantService{

@@ -1,8 +1,6 @@
 package com.foody.service;
 
-import com.foody.entity.FoodType;
 import com.foody.entity.Restaurant;
-import com.foody.entity.RestaurantType;
 import org.json.JSONException;
 
 import java.io.IOException;

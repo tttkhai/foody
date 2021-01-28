@@ -1,6 +1,5 @@
 package com.foody.service;
 
-import com.foody.entity.Country;
 import com.foody.entity.RestaurantType;
 import com.foody.repository.RestaurantTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
