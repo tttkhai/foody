@@ -41,7 +41,6 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
         final String token = jwtTokenUtil.generateToken(user.getUsername());
-        System.out.println("this is token: "+token);
         Map map = new HashMap<>();
         map.put("token", token);
         return ResponseEntity.ok().body(map);
@@ -99,8 +98,6 @@ public class UserController {
             String lastName = json.getString("lastName");
             String phoneNumber = json.getString("phoneNumber");
             int role_id = json.getInt("role_id");
-            System.out.println("Check: "+address+ email + firstName+ lastName+
-                    password+ phoneNumber+ username+ role_id);
             boolean isUserExist = userRepository.addNewUser(address, email, firstName, lastName,
                     password, phoneNumber, username, role_id)==0?true:false;
 

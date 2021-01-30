@@ -24,7 +24,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findUserByUserName(username);
-        System.out.println("this is user "+ user);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
@@ -32,12 +31,6 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                user.getAuthorities());
     }
-
-//    public User save(User user) {
-//        String password = bcryptEncoder.encode(user.getPassword());
-//        return userRepository.addNewUser(user.getAddress(), user.getEmail(), user.getFirstName(), user.getLastName(),
-//                password, user.getPhoneNumber(),user.getUsername(), user.getRole().getId());
-//    }
 
     public User getUser(int id) {
         return userRepository.findById(id).map(user->{
