@@ -107,7 +107,7 @@ public class UserController {
             if(isUserExist){
                 return ResponseEntity.status(409).body("Duplicate username");
             } else {
-                return ResponseEntity.status(201).body("Create user");
+                return ResponseEntity.status(201).body("Created user");
             }
         } catch (Exception e){
             return ResponseEntity.status(500).body("Error: "+e);
