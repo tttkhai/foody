@@ -34,6 +34,7 @@ INSERT INTO `foodydb`.`restaurant` VALUES (2, '7050 Highway 85, Riverdale, GA 30
 
 
 -------- Procedure to add new review ----------
+DELIMITER $$
 CREATE PROCEDURE `foodydb`.`AddReview`(IN cleanliness INT, IN customer_service INT, IN deliver INT, IN taste INT, IN comment_str varchar(200), IN restaurant_id  INT, IN user_id INT)
 BEGIN
 	DECLARE isUserExist int;
@@ -46,6 +47,26 @@ BEGIN
 		INSERT INTO `foodydb`.`review`(`cleanliness`, `comment`, `customer_service`, `deliver`, `taste`,`restaurant_id`,`user_id`)
         VALUES
         (cleanliness, comment_str, customer_service, deliver,taste,restaurant_id,user_id);
+	END IF;
+END $$
+
+DELIMITER ;
+
+-------- Procedure to add new user ----------
+CREATE PROCEDURE `foodydb`.`AddNewUser`(IN address varchar(100), IN email varchar(60),
+	IN firstName varchar(50), IN lastName varchar(50), IN password varchar(200),
+    IN phoneNumber varchar(15), IN username1 varchar(50), IN role_id INT)
+BEGIN
+	DECLARE isUserExist int;
+    SET isUserExist = 0;
+    SELECT count(*) INTO isUserExist from `foodydb`.`user` WHERE username = username1;
+    IF(isUserExist>0) THEN
+        select 0 as user_id;
+	ELSE
+		INSERT INTO `foodydb`.`user`(`address`, `email`, `first_name`, `last_name`, `password`, `phone_number`, `username`, `role_id`)
+        VALUES
+        (address, email, firstName, lastName, password, phoneNumber, username1, role_id);
+        SELECT LAST_INSERT_ID() as user_id;
 	END IF;
 END
 

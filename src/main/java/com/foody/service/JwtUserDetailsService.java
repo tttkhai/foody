@@ -33,10 +33,11 @@ public class JwtUserDetailsService implements UserDetailsService {
                user.getAuthorities());
     }
 
-    public User save(User user) {
-        user.setPassword(bcryptEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
+//    public User save(User user) {
+//        String password = bcryptEncoder.encode(user.getPassword());
+//        return userRepository.addNewUser(user.getAddress(), user.getEmail(), user.getFirstName(), user.getLastName(),
+//                password, user.getPhoneNumber(),user.getUsername(), user.getRole().getId());
+//    }
 
     public User getUser(int id) {
         return userRepository.findById(id).map(user->{

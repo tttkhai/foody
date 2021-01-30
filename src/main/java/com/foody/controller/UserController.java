@@ -4,6 +4,8 @@ import com.foody.config.JwtTokenUtil;
 import com.foody.entity.User;
 import com.foody.repository.UserRepository;
 import com.foody.service.JwtUserDetailsService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +34,8 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
@@ -56,7 +60,6 @@ public class UserController {
         map.put("last_name", userProfile.getLastName());
         return ResponseEntity.ok().body(map);
     }
-
 
     private void authenticate(String username, String password) throws Exception {
         try {
@@ -85,12 +88,29 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody User user) {
-        User existing_user = userRepository.findUserByUserName(user.getUsername().toString());
-        if(existing_user==null){
-            return ResponseEntity.ok().body(jwtUserDetailsService.save(user));
-        } else{
-            return ResponseEntity.status(409).body("Duplicate username");
+    public ResponseEntity<?> addNewUser(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
+        try{
+            JSONObject json = new JSONObject(payload);
+            String username = json.getString("username");
+            String password = bcryptEncoder.encode(json.getString("password"));
+            String address = json.getString("address");
+            String email = json.getString("email");
+            String firstName = json.getString("firstName");
+            String lastName = json.getString("lastName");
+            String phoneNumber = json.getString("phoneNumber");
+            int role_id = json.getInt("role_id");
+            System.out.println("Check: "+address+ email + firstName+ lastName+
+                    password+ phoneNumber+ username+ role_id);
+            boolean isUserExist = userRepository.addNewUser(address, email, firstName, lastName,
+                    password, phoneNumber, username, role_id)==0?true:false;
+
+            if(isUserExist){
+                return ResponseEntity.status(409).body("Duplicate username");
+            } else {
+                return ResponseEntity.status(201).body("Create user");
+            }
+        } catch (Exception e){
+            return ResponseEntity.status(500).body("Error: "+e);
         }
     }
 }

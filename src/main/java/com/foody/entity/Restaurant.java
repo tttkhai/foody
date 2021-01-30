@@ -59,6 +59,7 @@ public class Restaurant {
     }
 
     public static interface SearchRestaurantInterface {
+        int getId();
         String getName();
         String getEmail();
         String getAddress();
