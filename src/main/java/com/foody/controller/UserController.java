@@ -41,18 +41,10 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
         authenticate(user.getUsername(), user.getPassword());
         final String token = jwtTokenUtil.generateToken(user.getUsername());
-        Map map = new HashMap<>();
-        map.put("token", token);
-        return ResponseEntity.ok().body(map);
-    }
-
-    @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
-    public ResponseEntity<?> getUserProfile() throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final UserDetails user = (UserDetails) authentication.getPrincipal();
         final User userProfile = userRepository.findUserByUserName(user.getUsername());
 
         Map map = new HashMap<>();
+        map.put("token", token);
         map.put("user_id", userProfile.getId());
         map.put("user_name", userProfile.getUsername());
         map.put("first_name", userProfile.getFirstName());
@@ -88,6 +80,7 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
+        System.out.println("This being called");
         try{
             JSONObject json = new JSONObject(payload);
             String username = json.getString("username");
@@ -104,7 +97,7 @@ public class UserController {
             if(isUserExist){
                 return ResponseEntity.status(409).body("Duplicate username");
             } else {
-                return ResponseEntity.status(201).body("Created user");
+                return ResponseEntity.status(200).body("Created user");
             }
         } catch (Exception e){
             return ResponseEntity.status(500).body("Error: "+e);
