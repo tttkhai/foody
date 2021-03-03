@@ -4,11 +4,9 @@ package com.foody.config;
 // like creation and validation.It makes use of the io.jsonwebtoken.Jwts
 // for achieving this
 
-import com.foody.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
