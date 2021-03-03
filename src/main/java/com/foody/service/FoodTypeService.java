@@ -7,5 +7,4 @@ import java.util.List;
 public interface FoodTypeService {
     List<FoodType> getAllFoodTypes();
     FoodType getFoodType(int id);
-
 }
