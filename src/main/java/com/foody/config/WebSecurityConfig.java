@@ -18,25 +18,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import com.foody.config.Constants;
 
 @Configuration
 @EnableWebSecurity
@@ -96,7 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // All of Spring Security will ignore the requests
                 .antMatchers("/api/**")
                 .antMatchers("/**/login")
-                .antMatchers("/**/register");
+                .antMatchers("/**/register")
+                .antMatchers("/**/foodTypes");
+        ;
 //        webSecurity.ignoring().requestMatchers(SECURITY_EXCLUSION_MATCHER);
 
     }

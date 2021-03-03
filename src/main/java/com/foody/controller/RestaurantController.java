@@ -24,8 +24,13 @@ public class RestaurantController {
 
     @GetMapping(value = "/restaurants")
     public ResponseEntity<?> getAllRestaurants(@PathVariable int id) {
-        List<Restaurant> restaurantList = restaurantService.allRestaurants();
-        return ResponseEntity.ok().body(restaurantList);
+        try{
+            List<Restaurant> restaurantList = restaurantService.allRestaurants();
+            return ResponseEntity.ok().body(restaurantList);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
+
     }
 
     @GetMapping(value = "/restaurant/{id}")
@@ -35,26 +40,38 @@ public class RestaurantController {
             return ResponseEntity.ok().body(restaurant);
         } catch (Exception e){
             System.out.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: "+e);
         }
     }
 
     @GetMapping(value = "/results")
     public ResponseEntity<?> getRestaurantByLocation(@RequestBody int zip_code) {
-        List<Restaurant> restaurants = restaurantService.restaurantByLocation(zip_code);
-        return ResponseEntity.ok().body(restaurants);
+        try {
+            List<Restaurant> restaurants = restaurantService.restaurantByLocation(zip_code);
+            return ResponseEntity.ok().body(restaurants);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     @PostMapping(value = "/newRestaurant")
     public ResponseEntity<?> createRestaurant(@Valid @RequestBody Map<String, Object> payload) throws IOException, JSONException {
-        restaurantService.addRestaurant(payload);
-        return ResponseEntity.ok().build();
+        try {
+            restaurantService.addRestaurant(payload);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     @PostMapping(value = "/search/restaurantList")
     public ResponseEntity<?> getRestaurantListBySearch(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
-        List<Restaurant.SearchRestaurantInterface> restaurantList=restaurantService.getRestaurantListBySearch(payload);
-        return ResponseEntity.ok().body(restaurantList);
+        try {
+            List<Restaurant.SearchRestaurantInterface> restaurantList=restaurantService.getRestaurantListBySearch(payload);
+            return ResponseEntity.ok().body(restaurantList);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
 }

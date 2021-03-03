@@ -7,6 +7,7 @@ import com.foody.service.JwtUserDetailsService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,17 +40,21 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User user) throws Exception {
-        authenticate(user.getUsername(), user.getPassword());
-        final String token = jwtTokenUtil.generateToken(user.getUsername());
-        final User userProfile = userRepository.findUserByUserName(user.getUsername());
+        try {
+            authenticate(user.getUsername(), user.getPassword());
+            final String token = jwtTokenUtil.generateToken(user.getUsername());
+            final User userProfile = userRepository.findUserByUserName(user.getUsername());
 
-        Map map = new HashMap<>();
-        map.put("token", token);
-        map.put("user_id", userProfile.getId());
-        map.put("user_name", userProfile.getUsername());
-        map.put("first_name", userProfile.getFirstName());
-        map.put("last_name", userProfile.getLastName());
-        return ResponseEntity.ok().body(map);
+            Map map = new HashMap<>();
+            map.put("token", token);
+            map.put("user_id", userProfile.getId());
+            map.put("user_name", userProfile.getUsername());
+            map.put("first_name", userProfile.getFirstName());
+            map.put("last_name", userProfile.getLastName());
+            return ResponseEntity.ok().body(map);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -64,24 +69,36 @@ public class UserController {
 
     @PutMapping(value = "/user/{id}")
     public ResponseEntity<?> updateUserInfo(@PathVariable int id, @RequestBody User user) {
-        return ResponseEntity.ok().body(jwtUserDetailsService.updateUser(id, user));
+        try {
+            return ResponseEntity.ok().body(jwtUserDetailsService.updateUser(id, user));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
-        jwtUserDetailsService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        try {
+            jwtUserDetailsService.deleteUser(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
-        return ResponseEntity.ok().body(jwtUserDetailsService.getUser(id));
+        try{
+            return ResponseEntity.ok().body(jwtUserDetailsService.getUser(id));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
+        }
     }
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody Map<String, Object> payload) throws JSONException {
         System.out.println("This being called");
-        try{
+        try {
             JSONObject json = new JSONObject(payload);
             String username = json.getString("username");
             String password = bcryptEncoder.encode(json.getString("password"));
@@ -100,7 +117,7 @@ public class UserController {
                 return ResponseEntity.status(200).body("Created user");
             }
         } catch (Exception e){
-            return ResponseEntity.status(500).body("Error: "+e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: "+e);
         }
     }
 }
